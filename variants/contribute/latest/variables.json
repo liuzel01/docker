@@ -1,0 +1,20 @@
+{
+  "shuwei": {
+    "version": "",
+    "platform": {
+      "branch": "trunk"
+    }
+  },
+  "php": {
+    "versions": {
+      "7.1": {
+        "active": false
+      },
+      "7.0": {
+        "active": false
+      }
+    }
+  }
+}
+
+

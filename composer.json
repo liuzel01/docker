@@ -1,0 +1,6 @@
+{
+  "name": "58shuwei/docker",
+  "require-dev": {
+    "svrunit/svrunit": "^1.6"
+  }
+}

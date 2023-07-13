@@ -1,0 +1,10 @@
+.DS_Store
+.idea
+
+/svrunit.phar
+
+dist
+/docker-compose.yml
+/.reports
+/vendor
+/.circleci/body.json

@@ -1,0 +1,18 @@
+    # install xdebug for php {{ php_version }}
+    && sudo apt-get install -y php{{ php_version }}-dev \
+    && cd /var/www \
+    && rm -rf xdebug \
+    && wget https://github.com/xdebug/xdebug/archive/refs/tags/{{xdebug_tag}}.zip \
+    && unzip {{xdebug_tag}}.zip \
+    && rm -rf {{xdebug_tag}}.zip \
+    && mv xdebug-{{xdebug_tag}} xdebug \
+    && cd /var/www/xdebug \
+    && sudo apt-get update \
+    && sudo phpize{{ php_version }} \
+    && sudo ./configure --with-php-config=/usr/bin/php-config{{php_version}} \
+    && sudo make \
+    && sudo cp /var/www/xdebug/modules/xdebug.so /usr/lib/php/{{folder_id}}/xdebug_{{ php_version }}.so \
+    && make clean \
+    && make distclean \
+    && sudo phpize{{ php_version }} --clean \
+    && sudo apt-get remove -y php{{ php_version }}-dev \

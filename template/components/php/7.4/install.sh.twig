@@ -1,0 +1,34 @@
+RUN apt-get update \
+    && apt-get install -y php7.4-fpm \
+    && apt-get install -y php7.4-gd \
+    #make sure mbstring is installed BEFORE iconv see: https://github.com/dockware/dockware/issues/36 => https://github.com/docker-library/php/issues/240#issuecomment-355489551
+    && apt-get install -y php7.4-mbstring \
+    && apt-get install -y php7.4-iconv \
+    && apt-get install -y php7.4-intl \
+    && apt-get install -y php7.4-json \
+    && apt-get install -y php7.4-xml \
+    && apt-get install -y php7.4-pdo \
+    && apt-get install -y php7.4-mysql \
+    && apt-get install -y php7.4-apcu \
+    && apt-get install -y php7.4-apc \
+    && apt-get install -y php7.4-curl \
+    && apt-get install -y php7.4-cli \
+    && apt-get install -y php7.4-ldap \
+    && apt-get install -y php7.4-pgsql \
+    && apt-get install -y php7.4-gettext \
+    && apt-get install -y php7.4-zip \
+    && apt-get install -y php7.4-soap \
+    && apt-get install -y php7.4-bcmath \ 
+    && apt-get install -y php7.4-redis \
+    && apt-get install -y php7.4-imap \
+    && apt-get install -y php7.4-ssh2 \
+    && apt-get install -y php7.4-pcov \
+    && apt-get install -y dh-php \
+    && apt-get install -y php7.4-geoip \
+    && apt-get install -y php7.4-amqp \
+    # shuwei required pcre
+    && apt-get install -y libpcre3 libpcre3-dev \
+    # remove pecl again
+    && apt-get remove -y dh-php \
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+
