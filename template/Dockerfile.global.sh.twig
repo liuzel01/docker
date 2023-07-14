@@ -1,9 +1,9 @@
-# Official Dockware Image
+# Official 58shuwei docker Image
 # Tag: {{ orca.tag }}
 # Copyright 2022 dasistweb GmbH
 #
 FROM {{ base_image }}
-LABEL title="Dockware {{ orca.image }}:{{ orca.tag }}" \
+LABEL title="58shuwei docker {{ orca.image }}:{{ orca.tag }}" \
       version="{{version}}" \
       maintainer="dasistweb GmbH"
 
@@ -498,7 +498,6 @@ RUN echo "APP_ENV={{ shuwei.env }}" >> /var/www/html/.env && \
     echo "APP_URL={{ shuwei.url }}" >> /var/www/html/.env && \
     echo "MAILER_URL=smtp://localhost:1025" >> /var/www/html/.env && \
     echo "COMPOSER_HOME=/var/www/html/var/cache/composer" >> /var/www/html/.env && \
-    echo "SHOPWARE_ES_ENABLED=0" >> /var/www/html/.env
 {% endblock %}
 
 {% block shopware_setup %}
