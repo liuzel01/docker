@@ -1,5 +1,5 @@
 RUN sudo service mysql start && \
-    # we have to update the used PHP version (for older shopware versions <= 5.3)
+    # we have to update the used PHP version (for older shuwei versions <= 5.3)
     sudo update-alternatives --set php /usr/bin/php{{ php.default_version }} > /dev/null 2>&1 && \
     # ------------------------------------------------------------------------------------------------------------
     mysql --user={{ db_user }} --password={{ db.pwd }} -e "CREATE DATABASE {{ db_database }} CHARACTER SET utf8 COLLATE utf8_general_ci;" && \

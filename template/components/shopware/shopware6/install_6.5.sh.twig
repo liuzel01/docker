@@ -1,18 +1,18 @@
 {% extends "variants/dev/Dockerfile.base.sh.twig" %}
 
-{% block shopware %}
-COPY ./assets/shopware6/DockwareSamplePlugin /var/www/html/custom/plugins/DockwareSamplePlugin
+{% block shuwei %}
+COPY ./assets/shuwei6/DockwareSamplePlugin /var/www/html/custom/plugins/DockwareSamplePlugin
 
 RUN sudo service mysql start && \
     # -------------------------------------------------------------------------------------------
     cd /var/www && \
-    composer create-project shopware/production --no-interaction tmp && \
+    composer create-project shuwei/production --no-interaction tmp && \
     cp -a /var/www/tmp/. /var/www/html && \
     rm -rf /var/www/tmp && \
     # -------------------------------------------------------------------------------------------
     # ALWAYS UPDATE .env itself
     # if we would use .env.local, then these things could happen....our 127.0.0.1 instead of localhost for MySQL might not exist in a users custom .env.local
-    # which would use Shopware default with localhost, which breaks the DB connection in MySQL 8
+    # which would use Shuwei default with localhost, which breaks the DB connection in MySQL 8
     sed -i "/APP_ENV=/g" /var/www/html/.env && \
     sed -i "/APP_URL=/g" /var/www/html/.env && \
     sed -i "/DATABASE_URL=/g" /var/www/html/.env && \
@@ -22,8 +22,8 @@ RUN sudo service mysql start && \
     echo "DATABASE_URL=mysql://{{ db.user }}:{{ db.pwd }}@{{ db.host }}:{{ db.port }}/{{ db.database }}" >> /var/www/html/.env && \
     echo "MAILER_URL=smtp://127.0.0.1:1025" >> /var/www/html/.env && \
     # -------------------------------------------------------------------------------------------
-    # install the correct Shopware version
-    cd /var/www/html && composer req shopware/core:{{ sw_version }} shopware/administration:{{ sw_version }} shopware/elasticsearch:{{ sw_version }} shopware/storefront:{{ sw_version }} -W && \
+    # install the correct Shuwei version
+    cd /var/www/html && composer req shuwei/core:{{ sw_version }} shuwei/administration:{{ sw_version }} shuwei/elasticsearch:{{ sw_version }} shuwei/storefront:{{ sw_version }} -W && \
     # -------------------------------------------------------------------------------------------
     # switch to default PHP before installing
     sudo update-alternatives --set php /usr/bin/php{{ php_version }} > /dev/null 2>&1 && \

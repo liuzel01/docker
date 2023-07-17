@@ -115,7 +115,7 @@ sudo service mysql start;
 if [ $MYSQL_USER != "not-set" ] && [ $MYSQL_PWD != "not-set" ]; then
     echo "DOCKWARE: creating new MySQL user...."
     # -----------------------------------
-    # Shopware users triggers. the DEFINER does also need to be changed to our new user
+    # Shuwei users triggers. the DEFINER does also need to be changed to our new user
     # otherwise problems like "product cant be created in admin" will occur.
     # the only solution is to export the triggers, replace the DEFINER and import it again.
     sudo mysqldump -P 3306 -h localhost -u {{ db.user }} -p"{{ db.pwd }}" --triggers --add-drop-trigger --no-create-info --no-data --no-create-db --skip-opt {{ db.database }} > /tmp/triggers.sql
@@ -229,25 +229,25 @@ fi
 
 
 
-{% block setup_shopware %}
+{% block setup_shuwei %}
 
-{% block setup_shopware_domain %}
+{% block setup_shuwei_domain %}
 if [ $SHOP_DOMAIN != "localhost" ]; then
   # update our domain. this means we can use the
     # SHOP DOMAIN as environment variable
     echo "DOCKWARE: updating domain to ${SHOP_DOMAIN}..."
-    sh /var/www/scripts/shopware6/update_domain.sh
+    sh /var/www/scripts/shuwei6/update_domain.sh
     echo "-----------------------------------------------------------"
 fi
 {% endblock %}
 
 if [ $SW_CURRENCY != "not-set" ]; then
-  echo "DOCKWARE: Switching Shopware default currency..."
-  php /var/www/scripts/shopware6/set_currency.php $SW_CURRENCY
+  echo "DOCKWARE: Switching Shuwei default currency..."
+  php /var/www/scripts/shuwei6/set_currency.php $SW_CURRENCY
   echo "-----------------------------------------------------------"
 fi
 
-# The access key needs SWSC as a prefix, otherwise shopware
+# The access key needs SWSC as a prefix, otherwise shuwei
 # won't be able to access the storefront api.
 # The PHP script will automatically add it as a prefix, if
 # it was not defined in the environment variable.
@@ -255,8 +255,8 @@ fi
 # It will be echoed at the end of the entrypoint, so the
 # user can see the actual api key they need to use.
 if [ $SW_API_ACCESS_KEY != "not-set" ]; then
-  echo "DOCKWARE: Set Shopware API access key..."
-  ACTUAL_API_ACCESS_KEY=$(php /var/www/scripts/shopware6/set_api_access_key.php $SW_API_ACCESS_KEY)
+  echo "DOCKWARE: Set Shuwei API access key..."
+  ACTUAL_API_ACCESS_KEY=$(php /var/www/scripts/shuwei6/set_api_access_key.php $SW_API_ACCESS_KEY)
   echo "-----------------------------------------------------------"
 fi
 
@@ -333,12 +333,12 @@ echo "MAILCATCHER URL: http://${SHOP_DOMAIN}/mailcatcher"
 echo "PIMPMYLOG URL: http://${SHOP_DOMAIN}/logs"
 {% endblock %}
 
-{% block instructions_shopware %}
+{% block instructions_shuwei %}
 echo "SHOP URL: http://${SHOP_DOMAIN}"
-{% block instructions_shopware_admin %}
+{% block instructions_shuwei_admin %}
 echo "ADMIN URL: http://${SHOP_DOMAIN}/admin"
 {% endblock %}
-{% block instructions_shopware_api_access_key %}
+{% block instructions_shuwei_api_access_key %}
 if [ $SW_API_ACCESS_KEY != "not-set" ]; then
     echo "ACCESS KEY: ${ACTUAL_API_ACCESS_KEY}"
 fi
@@ -346,7 +346,7 @@ fi
 
 echo ""
 echo "What's new in this version? see the changelog for further details"
-echo "https://www.shopware.com/de/changelog/"
+echo "https://www.shuwei.com/de/changelog/"
 echo ""
 {% endblock %}
 

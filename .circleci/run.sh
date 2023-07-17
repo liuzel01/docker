@@ -5,7 +5,7 @@ cat <<EOT >> body.json
 {
   "parameters":
       {
-          "shopwareVersion": "$2",
+          "shuweiVersion": "$2",
           "setLatest" : $3
       }
 }

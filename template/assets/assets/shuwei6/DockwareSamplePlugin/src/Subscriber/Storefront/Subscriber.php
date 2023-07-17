@@ -2,7 +2,7 @@
 
 namespace DockwareSamplePlugin\Subscriber\Storefront;
 
-use Shopware\Storefront\Event\StorefrontRenderEvent;
+use Shuwei\Storefront\Event\StorefrontRenderEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class Subscriber implements EventSubscriberInterface

@@ -1,10 +1,10 @@
 {
     "name": "dockware/sample-plugin",
     "description": "Dockware Sample Plugin",
-    "type": "shopware-platform-plugin",
+    "type": "shuwei-platform-plugin",
     "license": "MIT",
     "extra": {
-        "shopware-plugin-class": "DockwareSamplePlugin\\DockwareSamplePlugin",
+        "shuwei-plugin-class": "DockwareSamplePlugin\\DockwareSamplePlugin",
         "author": "Dockware",
         "label": {
             "de-DE": "Dockware Sample Plugin",
@@ -17,8 +17,8 @@
     "require-dev": {
         "phpunit/phpunit": "~8.3.4",
         "phpstan/phpstan": "^0.12.18",
-        "shopware/core": "*",
-        "shopware/storefront": "*"
+        "shuwei/core": "*",
+        "shuwei/storefront": "*"
     },
     "autoload": {
         "psr-4": {

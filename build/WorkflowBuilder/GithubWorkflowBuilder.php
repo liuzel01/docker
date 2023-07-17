@@ -73,19 +73,19 @@ class GithubWorkflowBuilder
                cd tests/cypress && make run-essentials url=http://localhost
             fi
             if [[ $DW_IMAGE == play && $SW_VERSION == latest ]]; then
-               cd tests/cypress && make run6 url=http://localhost shopware='.Constants::LATEST_SW_VERSION.'
+               cd tests/cypress && make run6 url=http://localhost shuwei='.Constants::LATEST_SW_VERSION.'
             fi
             if [[ $DW_IMAGE == dev && $SW_VERSION == 6.5.0.0-rc1 ]]; then
-               cd tests/cypress && make run6 url=http://localhost shopware=6.5.0.0
+               cd tests/cypress && make run6 url=http://localhost shuwei=6.5.0.0
             fi
             if [[ $DW_IMAGE == dev && $SW_VERSION == latest ]]; then
-               cd tests/cypress && make run6 url=http://localhost shopware='.Constants::LATEST_SW_VERSION.'
+               cd tests/cypress && make run6 url=http://localhost shuwei='.Constants::LATEST_SW_VERSION.'
             fi
             if [[ $SW_VERSION == 6.* ]]; then
-               cd tests/cypress && make run6 url=http://localhost shopware=$SW_VERSION
+               cd tests/cypress && make run6 url=http://localhost shuwei=$SW_VERSION
             fi
             if [[ $SW_VERSION == 5.* ]]; then
-               cd tests/cypress && make run5 url=http://localhost shopware=$SW_VERSION
+               cd tests/cypress && make run5 url=http://localhost shuwei=$SW_VERSION
             fi
           env:
             DW_IMAGE: '.$image.'

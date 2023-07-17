@@ -1,5 +1,6 @@
 {
-  "shopware": {
+  "base_image": "ubuntu:22.04",
+  "shuwei": {
     "version": "",
     "dev": {
       "branch": "trunk"
@@ -10,11 +11,11 @@
   },
   "php": {
     "versions": {
-      "7.1": {
-        "active": false
+      "8.1": {
+        "active": true
       },
-      "7.0": {
-        "active": false
+      "8.2": {
+        "active": true
       }
     }
   }

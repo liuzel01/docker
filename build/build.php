@@ -4,7 +4,7 @@ include __DIR__ . '/WorkflowBuilder/GithubWorkflowBuilder.php';
 
 
 buildManifestImageJobs();
-buildShopwareVersionJob();
+buildShuweiVersionJob();
 buildCustomImageJob();
 
 
@@ -51,12 +51,12 @@ jobs:';
 /**
  *
  */
-function buildShopwareVersionJob()
+function buildShuweiVersionJob()
 {
     $builder = new GithubWorkflowBuilder();
 
-    $yml = 'name: Shopware Version
-run-name: Shopware ${{ github.event.inputs.tagName }}
+    $yml = 'name: Shuwei Version
+run-name: Shuwei ${{ github.event.inputs.tagName }}
 
 on:
   workflow_dispatch:
@@ -84,7 +84,7 @@ jobs:';
     $yml .= "\n  " . $job;
 
     file_put_contents(
-        __DIR__ . '/../.github/workflows/shopware.yml',
+        __DIR__ . '/../.github/workflows/shuwei.yml',
         $yml
     );
 }
@@ -97,7 +97,7 @@ function buildCustomImageJob()
     $builder = new GithubWorkflowBuilder();
 
     $yml = 'name: Custom Image
-run-name: Shopware ${{ github.event.inputs.tagName }}
+run-name: Shuwei ${{ github.event.inputs.tagName }}
 
 on:
   workflow_dispatch:

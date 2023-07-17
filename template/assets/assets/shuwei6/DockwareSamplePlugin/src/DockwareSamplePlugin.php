@@ -2,7 +2,7 @@
 
 namespace DockwareSamplePlugin;
 
-use Shopware\Core\Framework\Plugin;
+use Shuwei\Core\Framework\Plugin;
 
 class DockwareSamplePlugin extends Plugin
 {

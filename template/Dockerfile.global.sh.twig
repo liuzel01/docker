@@ -83,7 +83,10 @@ RUN echo "export SW_API_ACCESS_KEY=${SW_API_ACCESS_KEY}" >> /etc/profile
 
 {% endblock %}
 
+{% block image_apt_source_list %}
 
+
+{% endblock %}
 ## ***********************************************************************
 ##  BASE REQUIREMENTS
 ## ***********************************************************************
@@ -418,7 +421,7 @@ RUN echo "" \
 {% endblock %}
 
 {% block components_grunt %}
-    # navigate to another folder outside shopware to avoid this error: npm ERR! Tracker "idealTree" already exists
+    # navigate to another folder outside shuwei to avoid this error: npm ERR! Tracker "idealTree" already exists
     && cd /var/www && npm install -g grunt-cli \
     && cd /var/www && npm install grunt --save-dev \
 {% endblock %}
@@ -461,8 +464,8 @@ COPY ./assets/scripts/makefile /var/www/makefile
 COPY ./assets/scripts/bin /var/www/scripts/bin
 COPY ./assets/scripts/cron /var/www/scripts/cron
 
-{% block assets_install_shopware6 %}
-COPY ./assets/shopware6/files /var/www/scripts/shopware6
+{% block assets_install_shuwei6 %}
+COPY ./assets/shuwei6/files /var/www/scripts/shuwei6
 {% endblock %}
 
 {% endblock %}
@@ -476,32 +479,32 @@ RUN chown www-data:www-data -R /var/www/scripts && \
     chmod 755 /*.sh
 
 
-{% block shopware %}
+{% block shuwei %}
 
-{% block shopware_install %}
+{% block shuwei_install %}
 ## ***********************************************************************
-##  INSTALL SHOPWARE
+##  INSTALL SHUWEI
 ## ***********************************************************************
 RUN rm -rf /var/www/html/* \
-    && wget --no-check-certificate {{ shopware.download_url }} -qq -O /var/www/shopware.zip \
-    && unzip -q /var/www/shopware.zip -d /var/www/html \
-    && rm -rf /var/www/shopware.zip
+    && wget --no-check-certificate {{ shuwei.download_url }} -qq -O /var/www/shuwei.zip \
+    && unzip -q /var/www/shuwei.zip -d /var/www/html \
+    && rm -rf /var/www/shuwei.zip
 {% endblock %}
 
-{% block shopware_prepare %}
+{% block shuwei_prepare %}
 
-{% block shopware_prepare_env %}
-RUN echo "APP_ENV={{ shopware.env }}" >> /var/www/html/.env && \
+{% block shuwei_prepare_env %}
+RUN echo "APP_ENV={{ shuwei.env }}" >> /var/www/html/.env && \
     echo "APP_SECRET=1" >> /var/www/html/.env && \
     echo "INSTANCE_ID=1" >> /var/www/html/.env && \
     echo "DATABASE_URL=mysql://{{ db.user }}:{{ db.pwd }}@{{ db.host }}:{{ db.port }}/{{ db.database }}" >> /var/www/html/.env && \
-    echo "APP_URL={{ shopware.url }}" >> /var/www/html/.env && \
+    echo "APP_URL={{ shuwei.url }}" >> /var/www/html/.env && \
     echo "MAILER_URL=smtp://localhost:1025" >> /var/www/html/.env && \
     echo "COMPOSER_HOME=/var/www/html/var/cache/composer" >> /var/www/html/.env && \
-    echo "SHOPWARE_ES_ENABLED=0" >> /var/www/html/.env
+    echo "SHUWEI_ES_ENABLED=0" >> /var/www/html/.env
 {% endblock %}
 
-{% block shopware_setup %}
+{% block shuwei_setup %}
 RUN sudo service mysql start && \
     # switch to default PHP before installing
     sudo update-alternatives --set php /usr/bin/php{{ php.default_version }} > /dev/null 2>&1 && \
@@ -514,7 +517,7 @@ RUN sudo service mysql start && \
     cd /var/www/html && php bin/console system:generate-jwt-secret && \
     # -------------------------------------------------------------------------------------------
     # add some demo data
-    {% if version_gte(shopware.version, '6.2.0-rc1') %}
+    {% if version_gte(shuwei.version, '6.2.0-rc1') %}
     cd /var/www/html && APP_ENV=prod php bin/console store:download -p SwagPlatformDemoData && \
     cd /var/www/html && APP_ENV=prod php bin/console plugin:refresh && \
     cd /var/www/html && APP_ENV=prod php bin/console plugin:install --activate SwagPlatformDemoData && \
@@ -533,9 +536,9 @@ RUN sudo service mysql start && \
 {% endblock %}
 {% endblock %}
 
-{% block shopware_dev %}
+{% block shuwei_dev %}
 
-{% block shopware_dev_install %}
+{% block shuwei_dev_install %}
 RUN sudo service mysql start \
     # -------------------------------------------------------------------------------------------
     # fix weird problem with invalid phpunit file
@@ -550,16 +553,6 @@ RUN sudo service mysql start \
     && sudo service mysql stop
 {% endblock %}
 
-{% block shopware_dev_plugin %}
-COPY ./assets/shopware6/DockwareSamplePlugin /var/www/html/custom/plugins/DockwareSamplePlugin
-
-RUN sudo service mysql start && \
-    cd /var/www/html && php bin/console plugin:refresh && \
-    cd /var/www/html && php bin/console plugin:install DockwareSamplePlugin && \
-    cd /var/www/html && php bin/console plugin:activate DockwareSamplePlugin && \
-    rm -rf /var/www/html/var/cache/* && \
-    sudo service mysql stop
-{% endblock %}
 
 {% endblock %}
 
@@ -567,9 +560,9 @@ RUN sudo service mysql start && \
 
 
 RUN echo "" && \
-{% block shopware_tools %}
-{% block shopware_tools_dev_cli %}
-    curl -1sLf 'https://dl.cloudsmith.io/public/friendsofshopware/stable/setup.deb.sh' | sudo -E bash && sudo apt install shopware-cli && \
+{% block shuwei_tools %}
+{% block shuwei_tools_dev_cli %}
+    curl -1sLf 'https://dl.cloudsmith.io/public/friendsofshuwei/stable/setup.deb.sh' | sudo -E bash && sudo apt install shuwei-cli && \
 {% endblock %}
 {% endblock %}
     chown 33:33 -R /var/www/html && \

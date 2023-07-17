@@ -7,7 +7,7 @@ parameters:
   imageTag:
     type: string
     default: ""
-  shopwareVersion:
+  shuweiVersion:
     description: make sure a push does not trigger any workflow
     type: string
     default: ""
@@ -52,46 +52,46 @@ workflows:
     when:
       and:
         - not:
-            equal: [ "", << pipeline.parameters.shopwareVersion >> ]
+            equal: [ "", << pipeline.parameters.shuweiVersion >> ]
     jobs:
       # ------------------------------------------------------------------------------------
       - job-build-arm64:
-          name: sw-<< pipeline.parameters.shopwareVersion >>-dev-arm64
+          name: sw-<< pipeline.parameters.shuweiVersion >>-dev-arm64
           imageName: "dev"
-          imageTag: << pipeline.parameters.shopwareVersion >>
+          imageTag: << pipeline.parameters.shuweiVersion >>
       # ------------------------------------------------------------------------------------
       - job-build-arm64:
-          name: sw-<< pipeline.parameters.shopwareVersion >>-play-arm64
+          name: sw-<< pipeline.parameters.shuweiVersion >>-play-arm64
           imageName: "play"
-          imageTag: << pipeline.parameters.shopwareVersion >>
+          imageTag: << pipeline.parameters.shuweiVersion >>
       # ------------------------------------------------------------------------------------
       - job-build-amd64:
-          name: sw-<< pipeline.parameters.shopwareVersion >>-dev-amd64
+          name: sw-<< pipeline.parameters.shuweiVersion >>-dev-amd64
           imageName: "dev"
-          imageTag: << pipeline.parameters.shopwareVersion >>
+          imageTag: << pipeline.parameters.shuweiVersion >>
       # ------------------------------------------------------------------------------------
       - job-build-amd64:
-          name: sw-<< pipeline.parameters.shopwareVersion >>-play-amd64
+          name: sw-<< pipeline.parameters.shuweiVersion >>-play-amd64
           imageName: "play"
-          imageTag: << pipeline.parameters.shopwareVersion >>
+          imageTag: << pipeline.parameters.shuweiVersion >>
       # ------------------------------------------------------------------------------------
       - job-update-manifest:
           name: update-manifest-dev
           imageName: "dev"
-          imageTag: << pipeline.parameters.shopwareVersion >>
+          imageTag: << pipeline.parameters.shuweiVersion >>
           setLatest: << pipeline.parameters.setLatest >>
           requires:
-            - sw-<< pipeline.parameters.shopwareVersion >>-dev-amd64
-            - sw-<< pipeline.parameters.shopwareVersion >>-dev-arm64
+            - sw-<< pipeline.parameters.shuweiVersion >>-dev-amd64
+            - sw-<< pipeline.parameters.shuweiVersion >>-dev-arm64
       # ------------------------------------------------------------------------------------
       - job-update-manifest:
           name: update-manifest-play
           imageName: "play"
-          imageTag: << pipeline.parameters.shopwareVersion >>
+          imageTag: << pipeline.parameters.shuweiVersion >>
           setLatest: << pipeline.parameters.setLatest >>
           requires:
-            - sw-<< pipeline.parameters.shopwareVersion >>-play-amd64
-            - sw-<< pipeline.parameters.shopwareVersion >>-play-arm64
+            - sw-<< pipeline.parameters.shuweiVersion >>-play-amd64
+            - sw-<< pipeline.parameters.shuweiVersion >>-play-arm64
 
 
 # -----------------------------------------------------------------------------------------------------

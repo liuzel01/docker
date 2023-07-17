@@ -25,7 +25,7 @@ RUN apt-get update \
     && apt-get install -y dh-php \
 #    && apt-get install -y php8.0-geoip \ not available for 8.0
     && apt-get install -y php8.0-amqp \
-    # shopware required pcre
+    # shuwei required pcre
     && apt-get install -y libpcre3 libpcre3-dev \
     # remove pecl again
     && apt-get remove -y dh-php \

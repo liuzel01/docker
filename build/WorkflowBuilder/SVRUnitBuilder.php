@@ -35,7 +35,7 @@ class SVRUnitBuilder
         $ubuntuVersion = '22';
 
         if (version_compare($tag, '6.5') >= 0) {
-            # SHOPWARE 6
+            # SHUWEI 6
             $php81 = true;
             $php8 = false;
             $php74 = false;
@@ -48,7 +48,7 @@ class SVRUnitBuilder
             $node = '18';
         }
         if (str_contains($tag, '6.5')) {
-            # SHOPWARE 6
+            # SHUWEI 6
             $php81 = true;
             $php8 = false;
             $php74 = false;
@@ -60,7 +60,7 @@ class SVRUnitBuilder
             $node = '18';
 
         } else if ($tag === 'latest' || version_compare($tag, '6.0') >= 0) {
-            # SHOPWARE 6
+            # SHUWEI 6
             $php73 = false;
             $php72 = false;
             $php71 = false;
@@ -69,11 +69,11 @@ class SVRUnitBuilder
         } else {
 
             if (version_compare($tag, '6.0') >= 0) {
-                # SHOPWARE 6
+                # SHUWEI 6
                 $php56 = false;
             } else {
                 if (version_compare($tag, '5.7') >= 0) {
-                    # SHOPWARE >= 5.7
+                    # SHUWEI >= 5.7
                     $defaultPHP = '8';
 
                     $php72 = true;
@@ -82,7 +82,7 @@ class SVRUnitBuilder
                     $php56 = false;
 
                 } else {
-                    # SHOPWARE < 5.7
+                    # SHUWEI < 5.7
                     $composer = '1';
 
                     $defaultPHP = '5';
@@ -125,7 +125,7 @@ class SVRUnitBuilder
             <directory>./../../tests/packages/composer/v' . $composer . '</directory>';
 
         $sharedBaseSW = './../../tests/shared/base-6.0';
-        $shopwareCLI = '';
+        $shuweiCLI = '';
 
         if (str_contains($tag, '6.5')) {
             $sharedBaseSW = './../../tests/shared/base-6.5';
@@ -136,8 +136,8 @@ class SVRUnitBuilder
         }
 
         if ($isDev && str_starts_with($tag, '6.')) {
-            $shopwareCLI = '
-            <directory>./../../tests/packages/shopware-cli/</directory>';
+            $shuweiCLI = '
+            <directory>./../../tests/packages/shuwei-cli/</directory>';
         }
 
         $ubuntu = './../../tests/packages/ubuntu/' . $ubuntuVersion;
@@ -146,7 +146,7 @@ class SVRUnitBuilder
         <testsuite name="' . $imageFull . ', Core Checks" group="core" dockerImage="' . $imageFull . '">
             <directory>./../../tests/shared/base</directory>
             <directory>"' . $ubuntu . '"</directory>
-            <directory > ' . $sharedBaseSW . '</directory> ' . $devPart . $shopwareCLI . '
+            <directory > ' . $sharedBaseSW . '</directory> ' . $devPart . $shuweiCLI . '
             <directory >./../../tests/packages/php/php' . $defaultPHP . ' </directory>
         </testsuite >
     ';

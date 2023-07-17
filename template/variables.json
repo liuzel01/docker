@@ -73,7 +73,7 @@
             }
         }
     },
-    "shopware": {
+    "shuwei": {
         "env": "prod",
         "url": "http://localhost"
     },
@@ -109,8 +109,8 @@
     },
     "pimpmylog": {
         "paths": {
-            "shopware_prod": "/var/www/html/var/log/prod*.log",
-            "shopware_dev": "/var/www/html/var/log/dev*.log"
+            "shuwei_prod": "/var/www/html/var/log/prod*.log",
+            "shuwei_dev": "/var/www/html/var/log/dev*.log"
         }
     }
 }

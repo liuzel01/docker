@@ -1,6 +1,6 @@
 # Dockware Sample Plugin
 
-This is our sample plugin to get you started with Shopware development
+This is our sample plugin to get you started with Shuwei development
 as fast as possible.
 
 It's already installed and activated.
@@ -9,7 +9,7 @@ It also comes with a sample unit test and everything else you need.
 
 ## Concept
 The sample plugin has its own vendors to allow you a plug and play installation
-for non-development Shopware shops. Just upload and enjoy!
+for non-development Shuwei shops. Just upload and enjoy!
 
 For this you might need production dependencies.
 For development purpose on the other hand, you might want some dev-only-dependencies.
