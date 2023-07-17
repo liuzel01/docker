@@ -71,10 +71,6 @@ RUN echo "export MYSQL_USER=${MYSQL_USER}" >> /etc/profile \
     && echo "export MYSQL_PWD=${MYSQL_PWD}" >> /etc/profile
 {% endblock %}
 
-{% block image_variables_sw_currency %}
-ENV SW_CURRENCY 'not-set'
-RUN echo "export SW_CURRENCY=${SW_CURRENCY}" >> /etc/profile
-{% endblock %}
 
 {% block image_variables_sw_api_access_key %}
 ENV SW_API_ACCESS_KEY 'not-set'
@@ -83,7 +79,10 @@ RUN echo "export SW_API_ACCESS_KEY=${SW_API_ACCESS_KEY}" >> /etc/profile
 
 {% endblock %}
 
-{% block image_apt_source_list %}
+RUN touch /etc/apt/apt.conf.d/99verify-peer.conf \
+    && echo >> /etc/apt/apt.conf.d/99verify-peer.conf "Acquire { https::Verify-Peer false }"
+
+{% block image_before %}
 
 
 {% endblock %}
