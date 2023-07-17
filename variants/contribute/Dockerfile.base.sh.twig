@@ -23,7 +23,7 @@ RUN echo "deb https://mirrors.ustc.edu.cn/ubuntu/ jammy main restricted universe
 ##  INSTALL SHUWEI
 ## ***********************************************************************
 RUN git clone --branch={{ shuwei.platform.branch }} https://github.com/58shuwei/platform /var/www/platform && \
-    cp -a /var/www/platform/. /var/www/html/platform && \
+    cp -a /var/www/platform/. /var/www/html/ && \
     rm -rf /var/www/platform && \
     cd /var/www/html && \
     composer install
@@ -41,7 +41,6 @@ RUN echo "APP_ENV=dev" >> {{ env_file }} && \
     echo "APP_URL={{ shuwei.url }}" >> {{ env_file }} && \
     echo "MAILER_URL=smtp://localhost:1025" >> {{ env_file }} && \
     echo "COMPOSER_HOME=/var/www/html/var/cache/composer" >> {{ env_file }} && \
-    echo "SHUWEI_ES_ENABLED=0" >> {{ env_file }} && \
     echo "const:" >> {{ psh_override_file }} && \
     echo '     APP_ENV: "dev"' >> {{ psh_override_file }} && \
     echo '     APP_URL: "{{ shuwei.url }}"' >> {{ psh_override_file }} && \
@@ -50,7 +49,6 @@ RUN echo "APP_ENV=dev" >> {{ env_file }} && \
     echo '     DB_NAME: "{{ db.database }}"' >> {{ psh_override_file }} && \
     echo '     DB_USER: "{{ db.user }}"' >> {{ psh_override_file }} && \
     echo '     DB_PASSWORD: "{{ db.pwd }}"' >> {{ psh_override_file }} && \
-    cd /var/www/scripts/shuwei6 && php create_jwt.php && \
     chown www-data:www-data /var/www/html/config/jwt/*
 
 RUN service mysql start && \
@@ -58,7 +56,7 @@ RUN service mysql start && \
     # using the official psh command
     cd /var/www/html && ls -la && \
     export COMPOSER_HOME="/var/www/.composer" && \
-    ./psh.phar install
+    composer run setup
 
 {% endblock %}
 

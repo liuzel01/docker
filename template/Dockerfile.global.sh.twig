@@ -561,7 +561,6 @@ RUN sudo service mysql start \
 RUN echo "" && \
 {% block shuwei_tools %}
 {% block shuwei_tools_dev_cli %}
-    curl -1sLf 'https://dl.cloudsmith.io/public/friendsofshuwei/stable/setup.deb.sh' | sudo -E bash && sudo apt install shuwei-cli && \
 {% endblock %}
 {% endblock %}
     chown 33:33 -R /var/www/html && \
