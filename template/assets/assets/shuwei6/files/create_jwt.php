@@ -3,7 +3,7 @@
 $privateKeyPath = '/var/www/html/config/jwt/private.pem';
 $publicKeyPath = '/var/www/html/config/jwt/public.pem';
 
-$passphrase = 'shuwei';
+$passphrase = 'shopware';
 
 
 $key = openssl_pkey_new([

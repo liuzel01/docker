@@ -2,8 +2,8 @@
 
 
 {% block watcher_admin %}
-watch-admin: ## starts watcher for admin at {{ shuwei.url }}:8888
-	cd /var/www/html && PROJECT_ROOT=/var/www/html APP_URL={{ shuwei.url }} ESLINT_DISABLE=true PORT=8888 HOST=0.0.0.0 ENV_FILE=/var/www/html/.env npm run --prefix vendor/58shuwei/platform/src/Administration/Resources/app/administration/ dev
+watch-admin: ## starts watcher for admin at {{ shopware.url }}:8888
+	cd /var/www/html && PROJECT_ROOT=/var/www/html APP_URL={{ shopware.url }} ESLINT_DISABLE=true PORT=8888 HOST=0.0.0.0 ENV_FILE=/var/www/html/.env npm run --prefix vendor/shopware/platform/src/Administration/Resources/app/administration/ dev
 {% endblock %}
 
 

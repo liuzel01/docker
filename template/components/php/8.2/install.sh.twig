@@ -21,7 +21,7 @@ RUN apt-get update \
     && apt-get install -y php8.2-apcu \
     && apt-get install -y php8.2-pcov \
     && apt-get install -y dh-php \
-    # shuwei required pcre
+    # shopware required pcre
     && apt-get install -y libpcre3 libpcre3-dev \
     # remove pecl again
     && apt-get remove -y dh-php \

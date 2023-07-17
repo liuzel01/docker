@@ -10,12 +10,12 @@
     },
     "ssh": {
         "user": {
-            "name": "admin",
+            "name": "58shuwei",
             "pwd": "58shuwei"
         }
     },
     "php": {
-        "default_version": "7.4",
+        "default_version": "8.1",
         "versions": {
             "8.2": {
                 "active": true,
@@ -30,37 +30,37 @@
                 "xdebug_tag": "3.1.4"
             },
             "8.0": {
-                "active": true,
+                "active": false,
                 "folder_id": "20200930",
                 "xdebug_version": "3",
                 "xdebug_tag": "3.1.4"
             },
             "7.4": {
-                "active": true,
+                "active": false,
                 "folder_id": "20190902",
                 "xdebug_version": "3",
                 "xdebug_tag": "3.1.4"
             },
             "7.3": {
-                "active": true,
+                "active": false,
                 "folder_id": "20180731",
                 "xdebug_version": "3",
                 "xdebug_tag": "3.1.4"
             },
             "7.2": {
-                "active": true,
+                "active": false,
                 "folder_id": "20170718",
                 "xdebug_version": "3",
                 "xdebug_tag": "3.1.4"
             },
             "7.1": {
-                "active": true,
+                "active": false,
                 "folder_id": "20160303",
                 "xdebug_version": "2",
                 "xdebug_tag": "2.7.2"
             },
             "7.0": {
-                "active": true,
+                "active": false,
                 "folder_id": "20151012",
                 "xdebug_version": "2",
                 "xdebug_tag": "2.7.2"
@@ -73,7 +73,7 @@
             }
         }
     },
-    "shuwei": {
+    "shopware": {
         "env": "prod",
         "url": "http://localhost"
     },
@@ -81,23 +81,23 @@
         "version": 2
     },
     "node": {
-        "version": 12,
+        "version": 18,
         "packages": [
             {
                 "version": 18,
-                "active": false
+                "active": true
             },
             {
                 "version": 16,
-                "active": true
+                "active": false
             },
             {
                 "version": 14,
-                "active": true
+                "active": false
             },
             {
                 "version": 12,
-                "active": true
+                "active": false
             }
         ]
     },
@@ -105,7 +105,7 @@
         "docroot": "/var/www/html/public"
     },
     "mysql": {
-        "version" : "5.7"
+        "version" : "8.0"
     },
     "pimpmylog": {
         "paths": {

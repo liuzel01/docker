@@ -1,9 +1,5 @@
 {
     "images": {
-        "flex": [
-            "flex/latest:latest",
-            "flex/beta:beta"
-        ],
         "contribute": [
             "contribute/latest:latest"
         ]

@@ -1,9 +1,9 @@
-# Official 58shuwei docker Image
+# Official Dockware Image
 # Tag: {{ orca.tag }}
 # Copyright 2022 dasistweb GmbH
 #
 FROM {{ base_image }}
-LABEL title="58shuwei docker {{ orca.image }}:{{ orca.tag }}" \
+LABEL title="Dockware {{ orca.image }}:{{ orca.tag }}" \
       version="{{version}}" \
       maintainer="dasistweb GmbH"
 
@@ -22,20 +22,20 @@ ADD ./assets/CHANGELOG.md /var/www/CHANGELOG.md
 ##  IMAGE VARIABLES
 ## ***********************************************************************
 {% block image_variables_main %}
-ENV TZ Europe/Berlin
+ENV TZ Asia/Shanghai
 ENV PHP_VERSION {{php.default_version}}
 ENV APACHE_DOCROOT {{ apache.docroot }}
 ENV SW_TASKS_ENABLED 0
 ENV COMPOSER_VERSION not-set
 ENV NODE_VERSION {{ node.version }}
-ENV SHOP_DOMAIN localhost
+ENV SW_DOMAIN localhost
 RUN echo "export TZ=${TZ}" >> /etc/profile \
  && echo "export PHP_VERSION=${PHP_VERSION}" >> /etc/profile \
  && echo "export APACHE_DOCROOT=${APACHE_DOCROOT}" >> /etc/profile \
  && echo "export SW_TASKS_ENABLED=${SW_TASKS_ENABLED}" >> /etc/profile \
  && echo "export COMPOSER_VERSION=${COMPOSER_VERSION}" >> /etc/profile \
  && echo "export NODE_VERSION=${NODE_VERSION}" >> /etc/profile \
- && echo "export SHOP_DOMAIN=${SHOP_DOMAIN}" >> /etc/profile
+ && echo "export SW_DOMAIN=${SHOP_DOMAIN}" >> /etc/profile
 {% endblock %}
 
 {% block image_variables_dev %}
@@ -418,7 +418,7 @@ RUN echo "" \
 {% endblock %}
 
 {% block components_grunt %}
-    # navigate to another folder outside 58shuwei to avoid this error: npm ERR! Tracker "idealTree" already exists
+    # navigate to another folder outside shopware to avoid this error: npm ERR! Tracker "idealTree" already exists
     && cd /var/www && npm install -g grunt-cli \
     && cd /var/www && npm install grunt --save-dev \
 {% endblock %}
@@ -461,8 +461,8 @@ COPY ./assets/scripts/makefile /var/www/makefile
 COPY ./assets/scripts/bin /var/www/scripts/bin
 COPY ./assets/scripts/cron /var/www/scripts/cron
 
-{% block assets_install_shuwei6 %}
-COPY ./assets/shuwei6/files /var/www/scripts/shuwei6
+{% block assets_install_shopware6 %}
+COPY ./assets/shopware6/files /var/www/scripts/shopware6
 {% endblock %}
 
 {% endblock %}
@@ -476,28 +476,29 @@ RUN chown www-data:www-data -R /var/www/scripts && \
     chmod 755 /*.sh
 
 
-{% block shuwei %}
+{% block shopware %}
 
-{% block shuwei_install %}
+{% block shopware_install %}
 ## ***********************************************************************
 ##  INSTALL SHOPWARE
 ## ***********************************************************************
 RUN rm -rf /var/www/html/* \
-    && wget --no-check-certificate {{ shuwei.download_url }} -qq -O /var/www/shuwei.zip \
-    && unzip -q /var/www/shuwei.zip -d /var/www/html \
-    && rm -rf /var/www/shuwei.zip
+    && wget --no-check-certificate {{ shopware.download_url }} -qq -O /var/www/shopware.zip \
+    && unzip -q /var/www/shopware.zip -d /var/www/html \
+    && rm -rf /var/www/shopware.zip
 {% endblock %}
 
 {% block shopware_prepare %}
 
 {% block shopware_prepare_env %}
-RUN echo "APP_ENV={{ shuwei.env }}" >> /var/www/html/.env && \
+RUN echo "APP_ENV={{ shopware.env }}" >> /var/www/html/.env && \
     echo "APP_SECRET=1" >> /var/www/html/.env && \
     echo "INSTANCE_ID=1" >> /var/www/html/.env && \
     echo "DATABASE_URL=mysql://{{ db.user }}:{{ db.pwd }}@{{ db.host }}:{{ db.port }}/{{ db.database }}" >> /var/www/html/.env && \
-    echo "APP_URL={{ shuwei.url }}" >> /var/www/html/.env && \
+    echo "APP_URL={{ shopware.url }}" >> /var/www/html/.env && \
     echo "MAILER_URL=smtp://localhost:1025" >> /var/www/html/.env && \
     echo "COMPOSER_HOME=/var/www/html/var/cache/composer" >> /var/www/html/.env && \
+    echo "SHOPWARE_ES_ENABLED=0" >> /var/www/html/.env
 {% endblock %}
 
 {% block shopware_setup %}
@@ -513,7 +514,8 @@ RUN sudo service mysql start && \
     cd /var/www/html && php bin/console system:generate-jwt-secret && \
     # -------------------------------------------------------------------------------------------
     # add some demo data
-    {% if version_gte(shuwei.version, '6.2.0-rc1') %}
+    {% if version_gte(shopware.version, '6.2.0-rc1') %}
+    cd /var/www/html && APP_ENV=prod php bin/console store:download -p SwagPlatformDemoData && \
     cd /var/www/html && APP_ENV=prod php bin/console plugin:refresh && \
     cd /var/www/html && APP_ENV=prod php bin/console plugin:install --activate SwagPlatformDemoData && \
     {% else %}
@@ -549,12 +551,12 @@ RUN sudo service mysql start \
 {% endblock %}
 
 {% block shopware_dev_plugin %}
-COPY ./assets/shuwei6/DockerSamplePlugin /var/www/html/custom/plugins/DockerSamplePlugin
+COPY ./assets/shopware6/DockwareSamplePlugin /var/www/html/custom/plugins/DockwareSamplePlugin
 
 RUN sudo service mysql start && \
     cd /var/www/html && php bin/console plugin:refresh && \
-    cd /var/www/html && php bin/console plugin:install DockerSamplePlugin && \
-    cd /var/www/html && php bin/console plugin:activate DockerSamplePlugin && \
+    cd /var/www/html && php bin/console plugin:install DockwareSamplePlugin && \
+    cd /var/www/html && php bin/console plugin:activate DockwareSamplePlugin && \
     rm -rf /var/www/html/var/cache/* && \
     sudo service mysql stop
 {% endblock %}
@@ -567,7 +569,7 @@ RUN sudo service mysql start && \
 RUN echo "" && \
 {% block shopware_tools %}
 {% block shopware_tools_dev_cli %}
-    curl -1sLf 'https://dl.cloudsmith.io/public/friendsofshopware/stable/setup.deb.sh' | sudo -E bash && sudo apt install shuwei-cli && \
+    curl -1sLf 'https://dl.cloudsmith.io/public/friendsofshopware/stable/setup.deb.sh' | sudo -E bash && sudo apt install shopware-cli && \
 {% endblock %}
 {% endblock %}
     chown 33:33 -R /var/www/html && \

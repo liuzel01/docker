@@ -1,6 +1,9 @@
 {
-  "shuwei": {
+  "shopware": {
     "version": "",
+    "dev": {
+      "branch": "trunk"
+    },
     "platform": {
       "branch": "trunk"
     }

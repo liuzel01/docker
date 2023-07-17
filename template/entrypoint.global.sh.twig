@@ -1,15 +1,25 @@
 #!/bin/bash
 
 echo ""
+echo " _____   ____   _____ _  ____          __     _____  ______ "
+echo "|  __ \ / __ \ / ____| |/ /\ \        / /\   |  __ \|  ____|"
+echo "| |  | | |  | | |    | ' /  \ \  /\  / /  \  | |__) | |__   "
+echo "| |  | | |  | | |    |  <    \ \/  \/ / /\ \ |  _  /|  __|  "
+echo "| |__| | |__| | |____| . \    \  /\  / ____ \| | \ \| |____ "
+echo "|_____/ \____/ \_____|_|\_\    \/  \/_/    \_\_|  \_\______|"
+echo ""
+echo "68 69 20 64 65 76 65 6C 6F 70 65 72 2C 20 6E 69 63 65 20 74 6F 20 6D 65 65 74 20 79 6F 75"
+echo "6c 6f 6f 6b 69 6e 67 20 66 6f 72 20 61 20 6a 6f 62 3f 20 77 72 69 74 65 20 75 73 20 61 74 20 6a 6f 62 73 40 64 61 73 69 73 74 77 65 62 2e 64 65"
+echo ""
 echo "*******************************************************"
-echo "** DOCKER IMAGE: {{ orca.image }}"
+echo "** DOCKWARE IMAGE: {{ orca.image }}"
 echo "** Tag: {{ orca.tag }}"
 echo "** Version: {{ version }}"
 echo "** Built: $(cat /build-date.txt)"
 echo "** Copyright 2022 dasistweb GmbH"
 echo "*******************************************************"
 echo ""
-echo "launching docker...please wait..."
+echo "launching dockware...please wait..."
 echo ""
 
 {% block entrypoint %}
@@ -37,7 +47,7 @@ fi
 
 
 {% block tz %}
-echo "DOCKER: setting timezone to ${TZ}..."
+echo "DOCKWARE: setting timezone to ${TZ}..."
 sudo ln -sf /usr/share/zoneinfo/${TZ} /etc/localtime
 sudo dpkg-reconfigure -f noninteractive tzdata
 echo "-----------------------------------------------------------"
@@ -50,7 +60,7 @@ echo "-----------------------------------------------------------"
 
 {% block components_filebeat %}
 if [ $FILEBEAT_ENABLED = 1 ]; then
-   echo "DOCKER: activating Filebeat..."
+   echo "DOCKWARE: activating Filebeat..."
    sudo service filebeat start --strict.perms=false
    echo "-----------------------------------------------------------"
 fi
@@ -61,7 +71,7 @@ fi
 {% block components_ssh %}
 # checks if a different username is set in ENV and create if its not existing yet
 if [ $SSH_USER != "not-set" ] && (! id -u "${SSH_USER}" >/dev/null 2>&1 ); then
-    echo "DOCKER: creating additional SSH user...."
+    echo "DOCKWARE: creating additional SSH user...."
     # create a custom ssh user for our provided settings
     sudo adduser --disabled-password --uid 8888 --gecos "" --ingroup www-data $SSH_USER
     sudo usermod -a -G sudo $SSH_USER
@@ -81,7 +91,7 @@ if [ $SSH_USER != "not-set" ] && (! id -u "${SSH_USER}" >/dev/null 2>&1 ); then
 fi
 
 # start the SSH service with the latest setup
-echo "DOCKER: restarting SSH service...."
+echo "DOCKWARE: restarting SSH service...."
 sudo service ssh restart
 echo "-----------------------------------------------------------"
 {% endblock %}
@@ -89,7 +99,7 @@ echo "-----------------------------------------------------------"
 
 
 {% block components_mysql %}
-echo "DOCKER: starting MySQL...."
+echo "DOCKWARE: starting MySQL...."
 # somehow its necessary to set permissions, because
 # sometimes they get lost :)
 # make sure that it is no longer present from the last run
@@ -103,9 +113,9 @@ sudo service mysql start;
 
 {% block components_mysql_credentials %}
 if [ $MYSQL_USER != "not-set" ] && [ $MYSQL_PWD != "not-set" ]; then
-    echo "DOCKER: creating new MySQL user...."
+    echo "DOCKWARE: creating new MySQL user...."
     # -----------------------------------
-    # Shuwei users triggers. the DEFINER does also need to be changed to our new user
+    # Shopware users triggers. the DEFINER does also need to be changed to our new user
     # otherwise problems like "product cant be created in admin" will occur.
     # the only solution is to export the triggers, replace the DEFINER and import it again.
     sudo mysqldump -P 3306 -h localhost -u {{ db.user }} -p"{{ db.pwd }}" --triggers --add-drop-trigger --no-create-info --no-data --no-create-db --skip-opt {{ db.database }} > /tmp/triggers.sql
@@ -130,13 +140,13 @@ echo "-----------------------------------------------------------"
 {% endblock %}
 
 {% block components_mailcatcher %}
-echo "DOCKER: starting mailcatcher...."
+echo "DOCKWARE: starting mailcatcher...."
 sudo /usr/bin/env $(which mailcatcher) --ip=0.0.0.0
 echo "-----------------------------------------------------------"
 {% endblock %}
 
 {% block components_cron %}
-echo "DOCKER: starting cron service...."
+echo "DOCKWARE: starting cron service...."
 sudo service cron start
 echo "-----------------------------------------------------------"
 {% endblock %}
@@ -226,18 +236,18 @@ if [ $SHOP_DOMAIN != "localhost" ]; then
   # update our domain. this means we can use the
     # SHOP DOMAIN as environment variable
     echo "DOCKWARE: updating domain to ${SHOP_DOMAIN}..."
-    sh /var/www/scripts/shuwei6/update_domain.sh
+    sh /var/www/scripts/shopware6/update_domain.sh
     echo "-----------------------------------------------------------"
 fi
 {% endblock %}
 
 if [ $SW_CURRENCY != "not-set" ]; then
-  echo "DOCKWARE: Switching Shuwei default currency..."
-  php /var/www/scripts/shuwei6/set_currency.php $SW_CURRENCY
+  echo "DOCKWARE: Switching Shopware default currency..."
+  php /var/www/scripts/shopware6/set_currency.php $SW_CURRENCY
   echo "-----------------------------------------------------------"
 fi
 
-# The access key needs SWSC as a prefix, otherwise shuwei
+# The access key needs SWSC as a prefix, otherwise shopware
 # won't be able to access the storefront api.
 # The PHP script will automatically add it as a prefix, if
 # it was not defined in the environment variable.
@@ -245,8 +255,8 @@ fi
 # It will be echoed at the end of the entrypoint, so the
 # user can see the actual api key they need to use.
 if [ $SW_API_ACCESS_KEY != "not-set" ]; then
-  echo "DOCKWARE: Set Shuwei API access key..."
-  ACTUAL_API_ACCESS_KEY=$(php /var/www/scripts/shuwei6/set_api_access_key.php $SW_API_ACCESS_KEY)
+  echo "DOCKWARE: Set Shopware API access key..."
+  ACTUAL_API_ACCESS_KEY=$(php /var/www/scripts/shopware6/set_api_access_key.php $SW_API_ACCESS_KEY)
   echo "-----------------------------------------------------------"
 fi
 
@@ -336,7 +346,7 @@ fi
 
 echo ""
 echo "What's new in this version? see the changelog for further details"
-echo "https://www.shuwei.com/de/changelog/"
+echo "https://www.shopware.com/de/changelog/"
 echo ""
 {% endblock %}
 
