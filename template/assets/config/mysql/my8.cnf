@@ -6,7 +6,7 @@
 !includedir /etc/mysql/conf.d/
 !includedir /etc/mysql/mysql.conf.d/
 
-#### DOCKWARE CREATED SETTINGS ######
+#### SHUWEI DOCKER CREATED SETTINGS ######
 [mysqld_safe]
 socket          = /var/run/mysqld/mysqld.sock
 nice            = 0

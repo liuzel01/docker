@@ -2,7 +2,7 @@
 
 echo ""
 echo "*******************************************************"
-echo "** DOCKWARE IMAGE: {{ orca.image }}"
+echo "** SHUWEI DOCKER IMAGE: {{ orca.image }}"
 echo "** Tag: {{ orca.tag }}"
 echo "** Version: {{ version }}"
 echo "** Built: $(cat /build-date.txt)"
@@ -37,7 +37,7 @@ fi
 
 
 {% block tz %}
-echo "DOCKWARE: setting timezone to ${TZ}..."
+echo "SHUWEI DOCKER: setting timezone to ${TZ}..."
 sudo ln -sf /usr/share/zoneinfo/${TZ} /etc/localtime
 sudo dpkg-reconfigure -f noninteractive tzdata
 echo "-----------------------------------------------------------"
@@ -50,7 +50,7 @@ echo "-----------------------------------------------------------"
 
 {% block components_filebeat %}
 if [ $FILEBEAT_ENABLED = 1 ]; then
-   echo "DOCKWARE: activating Filebeat..."
+   echo "SHUWEI DOCKER: activating Filebeat..."
    sudo service filebeat start --strict.perms=false
    echo "-----------------------------------------------------------"
 fi
@@ -61,7 +61,7 @@ fi
 {% block components_ssh %}
 # checks if a different username is set in ENV and create if its not existing yet
 if [ $SSH_USER != "not-set" ] && (! id -u "${SSH_USER}" >/dev/null 2>&1 ); then
-    echo "DOCKWARE: creating additional SSH user...."
+    echo "SHUWEI DOCKER: creating additional SSH user...."
     # create a custom ssh user for our provided settings
     sudo adduser --disabled-password --uid 8888 --gecos "" --ingroup www-data $SSH_USER
     sudo usermod -a -G sudo $SSH_USER
@@ -81,7 +81,7 @@ if [ $SSH_USER != "not-set" ] && (! id -u "${SSH_USER}" >/dev/null 2>&1 ); then
 fi
 
 # start the SSH service with the latest setup
-echo "DOCKWARE: restarting SSH service...."
+echo "SHUWEI DOCKER: restarting SSH service...."
 sudo service ssh restart
 echo "-----------------------------------------------------------"
 {% endblock %}
@@ -89,7 +89,7 @@ echo "-----------------------------------------------------------"
 
 
 {% block components_mysql %}
-echo "DOCKWARE: starting MySQL...."
+echo "SHUWEI DOCKER: starting MySQL...."
 # somehow its necessary to set permissions, because
 # sometimes they get lost :)
 # make sure that it is no longer present from the last run
@@ -103,7 +103,7 @@ sudo service mysql start;
 
 {% block components_mysql_credentials %}
 if [ $MYSQL_USER != "not-set" ] && [ $MYSQL_PWD != "not-set" ]; then
-    echo "DOCKWARE: creating new MySQL user...."
+    echo "SHUWEI DOCKER: creating new MySQL user...."
     # -----------------------------------
     # Shuwei users triggers. the DEFINER does also need to be changed to our new user
     # otherwise problems like "product cant be created in admin" will occur.
@@ -130,13 +130,13 @@ echo "-----------------------------------------------------------"
 {% endblock %}
 
 {% block components_mailcatcher %}
-echo "DOCKWARE: starting mailcatcher...."
+echo "SHUWEI DOCKER: starting mailcatcher...."
 sudo /usr/bin/env $(which mailcatcher) --ip=0.0.0.0
 echo "-----------------------------------------------------------"
 {% endblock %}
 
 {% block components_cron %}
-echo "DOCKWARE: starting cron service...."
+echo "SHUWEI DOCKER: starting cron service...."
 sudo service cron start
 echo "-----------------------------------------------------------"
 {% endblock %}
@@ -153,7 +153,7 @@ sudo sed -i 's#__dockware_apache_docroot__#'${APACHE_DOCROOT}'#g' /etc/apache2/s
 
 
 {% block php_version %}
-echo "DOCKWARE: switching to PHP ${PHP_VERSION}..."
+echo "SHUWEI DOCKER: switching to PHP ${PHP_VERSION}..."
 cd /var/www && make switch-php version=${PHP_VERSION}
 sudo service apache2 stop
 echo "-----------------------------------------------------------"
@@ -162,12 +162,12 @@ echo "-----------------------------------------------------------"
 
 {% block components_composer %}
 if [ $COMPOSER_VERSION = 1 ]; then
-   echo "DOCKWARE: switching to composer 1..."
+   echo "SHUWEI DOCKER: switching to composer 1..."
    sudo composer self-update --1
    echo "-----------------------------------------------------------"
 fi
 if [ $COMPOSER_VERSION = 2 ]; then
-   echo "DOCKWARE: switching to composer 2..."
+   echo "SHUWEI DOCKER: switching to composer 2..."
    sudo composer self-update --stable
    echo "-----------------------------------------------------------"
 fi
@@ -190,12 +190,12 @@ fi
 
 {% block components_tideways %}
 if [ $TIDEWAYS_KEY != "not-set" ]; then
-    echo "DOCKWARE: activating Tideways...."
-    sudo sed -i 's/__DOCKWARE_VAR_TIDEWAYS_ENV__/'${TIDEWAYS_ENV}'/g' /etc/default/tideways-daemon
-    sudo sed -i 's/__DOCKWARE_VAR_TIDEWAYS_API_KEY__/'${TIDEWAYS_KEY}'/g' /etc/php/$PHP_VERSION/fpm/conf.d/20-tideways.ini
-    sudo sed -i 's/__DOCKWARE_VAR_TIDEWAYS_SERVICE__/'${TIDEWAYS_SERVICE}'/g' /etc/php/$PHP_VERSION/fpm/conf.d/20-tideways.ini
-    sudo sed -i 's/__DOCKWARE_VAR_TIDEWAYS_API_KEY__/'${TIDEWAYS_KEY}'/g' /etc/php/$PHP_VERSION/cli/conf.d/20-tideways.ini
-    sudo sed -i 's/__DOCKWARE_VAR_TIDEWAYS_SERVICE__/'${TIDEWAYS_SERVICE}'/g' /etc/php/$PHP_VERSION/cli/conf.d/20-tideways.ini
+    echo "SHUWEI DOCKER: activating Tideways...."
+    sudo sed -i 's/__SWDOCKER_VAR_TIDEWAYS_ENV__/'${TIDEWAYS_ENV}'/g' /etc/default/tideways-daemon
+    sudo sed -i 's/__SWDOCKER_VAR_TIDEWAYS_API_KEY__/'${TIDEWAYS_KEY}'/g' /etc/php/$PHP_VERSION/fpm/conf.d/20-tideways.ini
+    sudo sed -i 's/__SWDOCKER_VAR_TIDEWAYS_SERVICE__/'${TIDEWAYS_SERVICE}'/g' /etc/php/$PHP_VERSION/fpm/conf.d/20-tideways.ini
+    sudo sed -i 's/__SWDOCKER_VAR_TIDEWAYS_API_KEY__/'${TIDEWAYS_KEY}'/g' /etc/php/$PHP_VERSION/cli/conf.d/20-tideways.ini
+    sudo sed -i 's/__SWDOCKER_VAR_TIDEWAYS_SERVICE__/'${TIDEWAYS_SERVICE}'/g' /etc/php/$PHP_VERSION/cli/conf.d/20-tideways.ini
     sudo service tideways-daemon start
     echo "-----------------------------------------------------------"
 fi
@@ -205,7 +205,7 @@ fi
 
 {% block node_version %}
 if [[ ! -z "$NODE_VERSION" ]]; then
-   echo "DOCKWARE: switching to Node ${NODE_VERSION}..."
+   echo "SHUWEI DOCKER: switching to Node ${NODE_VERSION}..."
    nvm alias default ${NODE_VERSION}
    # now make sure to at least have node and npm as sudo
    # nvm itself is not possible by design
@@ -225,14 +225,14 @@ fi
 if [ $SHOP_DOMAIN != "localhost" ]; then
   # update our domain. this means we can use the
     # SHOP DOMAIN as environment variable
-    echo "DOCKWARE: updating domain to ${SHOP_DOMAIN}..."
+    echo "SHUWEI DOCKER: updating domain to ${SHOP_DOMAIN}..."
     sh /var/www/scripts/shuwei6/update_domain.sh
     echo "-----------------------------------------------------------"
 fi
 {% endblock %}
 
 if [ $SW_CURRENCY != "not-set" ]; then
-  echo "DOCKWARE: Switching Shuwei default currency..."
+  echo "SHUWEI DOCKER: Switching Shuwei default currency..."
   php /var/www/scripts/shuwei6/set_currency.php $SW_CURRENCY
   echo "-----------------------------------------------------------"
 fi
@@ -245,13 +245,13 @@ fi
 # It will be echoed at the end of the entrypoint, so the
 # user can see the actual api key they need to use.
 if [ $SW_API_ACCESS_KEY != "not-set" ]; then
-  echo "DOCKWARE: Set Shuwei API access key..."
+  echo "SHUWEI DOCKER: Set Shuwei API access key..."
   ACTUAL_API_ACCESS_KEY=$(php /var/www/scripts/shuwei6/set_api_access_key.php $SW_API_ACCESS_KEY)
   echo "-----------------------------------------------------------"
 fi
 
 if [ $SW_TASKS_ENABLED = 1 ]; then
-  echo "DOCKWARE: creating CRONs for scheduled tasks..."
+  echo "SHUWEI DOCKER: creating CRONs for scheduled tasks..."
 	crontab /var/www/scripts/cron/crontab.txt && sudo service cron restart
   echo "-----------------------------------------------------------"
 fi
@@ -274,7 +274,7 @@ sudo rm -f /var/run/apache2/apache2.pid
 sudo lsof -t -i tcp:80 | sudo xargs kill >/dev/null 2>&1 || true;
 
 # start test and start apache
-echo "DOCKWARE: testing and starting Apache..."
+echo "SHUWEI DOCKER: testing and starting Apache..."
 sudo apache2ctl configtest
 sudo service apache2 restart
 echo "-----------------------------------------------------------"
@@ -306,7 +306,7 @@ fi
 echo ""
 echo "WOHOOO, dockware/{{ orca.image }}:{{ orca.tag }} IS READY :) - let's get started"
 echo "-----------------------------------------------------"
-echo "DOCKWARE CHANGELOG: /var/www/CHANGELOG.md"
+echo "SHUWEI DOCKER CHANGELOG: /var/www/CHANGELOG.md"
 echo "PHP: $(php -v | grep cli)"
 echo "Apache DocRoot: ${APACHE_DOCROOT}"
 
@@ -366,9 +366,9 @@ exec "$@"
 
 # we still need this to allow custom events
 # such as our BUILD_PLUGIN feature to exit the container
-if [[ ! -z "$DOCKWARE_CI" ]]; then
+if [[ ! -z "$SWDOCKER_CI" ]]; then
     # CONTAINER WAS STARTED IN NON-BLOCKING CI MODE...."
-    # DOCKWARE WILL NOW EXIT THE CONTAINER"
+    # SHUWEI DOCKER WILL NOW EXIT THE CONTAINER"
     echo ""
 else
     tail -f /dev/null
