@@ -19,6 +19,7 @@ RUN echo "deb https://mirrors.ustc.edu.cn/ubuntu/ jammy main restricted universe
 {% endblock %}
 
 {% block shuwei_install %}
+
 ## ***********************************************************************
 ##  INSTALL SHUWEI
 ## ***********************************************************************
@@ -28,7 +29,6 @@ RUN git clone --branch={{ shuwei.platform.branch }} https://github.com/58shuwei/
     cd /var/www/html && \
     composer install
 {% endblock %}
-
 
 {% block shuwei_prepare %}
 {% set env_file = '/var/www/html/.env' %}
@@ -48,8 +48,7 @@ RUN echo "APP_ENV=dev" >> {{ env_file }} && \
     echo '     DB_PORT: "{{ db.port }}"' >> {{ psh_override_file }} && \
     echo '     DB_NAME: "{{ db.database }}"' >> {{ psh_override_file }} && \
     echo '     DB_USER: "{{ db.user }}"' >> {{ psh_override_file }} && \
-    echo '     DB_PASSWORD: "{{ db.pwd }}"' >> {{ psh_override_file }} && \
-    chown www-data:www-data /var/www/html/config/jwt/*
+    echo '     DB_PASSWORD: "{{ db.pwd }}"' >> {{ psh_override_file }}
 
 RUN service mysql start && \
     # install shuwei by
@@ -57,7 +56,7 @@ RUN service mysql start && \
     cd /var/www/html && ls -la && \
     export COMPOSER_HOME="/var/www/.composer" && \
     composer run setup && \
-    composer run build:js:admin
+    chown www-data:www-data /var/www/html/config/jwt/* 
 
 {% endblock %}
 

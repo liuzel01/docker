@@ -81,10 +81,10 @@
         "version": 2
     },
     "node": {
-        "version": 18,
+        "version": "18.17.0",
         "packages": [
             {
-                "version": 18,
+                "version": "18.17.0",
                 "active": true
             },
             {

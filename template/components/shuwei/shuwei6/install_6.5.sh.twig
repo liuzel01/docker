@@ -1,7 +1,6 @@
 {% extends "variants/dev/Dockerfile.base.sh.twig" %}
 
 {% block shuwei %}
-COPY ./assets/shuwei6/DockwareSamplePlugin /var/www/html/custom/plugins/DockwareSamplePlugin
 
 RUN sudo service mysql start && \
     # -------------------------------------------------------------------------------------------
