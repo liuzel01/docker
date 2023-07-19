@@ -1,0 +1,25 @@
+# Shuwei Docker #{{ orca.image }}
+
+## Quick reference
+{% block quick_reference %}
+More about Shuwei: https://www.58shopware.com
+Shuwei Platform on Github: https://github.com/58shuwei/platform
+{% endblock %}
+
+### Quick Start
+If you want to start the image and give it a try, simply
+use the following command.
+
+{% block quick_start_tag %}
+For the latest Shuwei version use the tag `latest`, or use any other existing Shuwei 6 version like `6.5.0`.
+{% endblock %}
+
+You can also switch to another PHP version by providing the ENV variable.
+
+```ruby
+# quick run with latest PHP and Shuwei
+$ docker run --rm -p 80:80 58shuwei/{{ orca.image }}:{{ orca.tag }}
+
+# use another php version
+$ docker run --rm -p 80:80 --env PHP_VERSION=7.2 58shuwei/{{ orca.image }}:{{ orca.tag }}
+```
