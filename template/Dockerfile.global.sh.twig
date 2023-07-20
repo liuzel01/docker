@@ -414,6 +414,13 @@ RUN echo "" \
     && cd /var/www && npm install grunt --save-dev \
 {% endblock %}
 
+{% block components_ts %}
+    && cd /var/www && npm install -g ts-node ts-morph \
+
+{% endblock %}
+
+
+
 {% block components_packagers_yarn %}
     && npm install -g --no-install-recommends yarn \
     && chown -R www-data:www-data /var/www/.composer \
@@ -528,7 +535,9 @@ RUN sudo service mysql start \
     && cd /var/www/html && composer install \
     # install and pre-build our admin and storefront
     && cd /var/www/html && ./bin/build.sh \
-    && sudo service mysql stop
+    && sudo service mysql stop \
+    && sudo chown 33:33 /var/run/mysqld
+
 {% endblock %}
 
 
@@ -561,7 +570,7 @@ USER {{ ssh.user.name }}
 # make the apache folder the working directory
 WORKDIR /var/www/html
 
-
+expose 22 3306 80
 
 ## ***********************************************************************
 ##  POST BUILD
