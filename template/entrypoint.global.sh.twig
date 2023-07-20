@@ -99,6 +99,7 @@ if [ -f "$file" ] ; then
 fi
 
 sudo chown -R mysql:mysql /var/lib/mysql /var/run/mysqld
+sudo chown 33:33 -R /var/run/mysqld /var/lib/mysql
 sudo service mysql start;
 
 {% block components_mysql_credentials %}

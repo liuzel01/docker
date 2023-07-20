@@ -51,8 +51,6 @@ RUN echo "APP_ENV=dev" >> {{ env_file }} && \
     echo '     DB_PASSWORD: "{{ db.pwd }}"' >> {{ psh_override_file }}
 
 RUN service mysql start && \
-    # install shuwei by
-    # using the official psh command
     cd /var/www/html && ls -la && \
     export COMPOSER_HOME="/var/www/.composer" && \
     php ./bin/shuwei system:install --drop-database --create-database -f --basic-setup && \

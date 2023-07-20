@@ -323,7 +323,6 @@ RUN cd /var/www \
 
 {% block components_mysql %}
 {% include 'template/components/mysql/' ~ mysql.version ~ '/install.sh.twig' with { 'pwd' : db.pwd } %}
-
 {% endblock %}
 
 
@@ -535,8 +534,7 @@ RUN sudo service mysql start \
     && cd /var/www/html && composer install \
     # install and pre-build our admin and storefront
     && cd /var/www/html && ./bin/build.sh \
-    && sudo service mysql stop \
-    && sudo chown 33:33 /var/run/mysqld
+    && sudo service mysql stop 
 
 {% endblock %}
 
@@ -570,7 +568,9 @@ USER {{ ssh.user.name }}
 # make the apache folder the working directory
 WORKDIR /var/www/html
 
-expose 22 3306 80
+expose 22 3306 
+
+RUN sudo chown 33:33 -R /var/run/mysqld
 
 ## ***********************************************************************
 ##  POST BUILD
