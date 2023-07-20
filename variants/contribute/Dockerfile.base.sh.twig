@@ -55,7 +55,8 @@ RUN service mysql start && \
     # using the official psh command
     cd /var/www/html && ls -la && \
     export COMPOSER_HOME="/var/www/.composer" && \
-    composer run system:install --drop-database --create-database -f --basic-setup && \
+    php ./bin/shuwei system:install --drop-database --create-database -f --basic-setup && \
+    composer run init:js && \
     composer run build:js:admin && \
     chown www-data:www-data /var/www/html/config/jwt/* 
 
