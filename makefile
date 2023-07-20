@@ -43,7 +43,7 @@ ifndef tag
 	$(warning Provide the required image tag using "make build image=play tag=6.1.6")
 	@exit 1;
 else
-	@cd ./dist/images/$(image)/$(tag) && DOCKER_BUILDKIT=1 docker build -t 58shuwei/$(image):$(tag) .
+	@cd ./dist/images/$(image)/$(tag) && DOCKER_BUILDKIT=1 docker build -t 58shuwei/$(image):$(tag) --add-host raw.githubusercontent.com:185.199.111.133 .
 endif
 
 build-and-push-multiarch: ## Builds and pushes the provided tag [image=play tag=6.1.6]
