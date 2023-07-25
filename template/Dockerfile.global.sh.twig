@@ -365,7 +365,7 @@ RUN ls -la \
     && mkdir "/var/www/.nvm" \
     && export NVM_DIR="/var/www/.nvm" \
     # -----------------------------------------------------------------------------------------
-    && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash \
+    && curl -o- https://gitee.com/mirrors/nvm/raw/v0.39.1/install.sh | bash \
     # -----------------------------------------------------------------------------------------
     && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" \
     && [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  \
@@ -568,7 +568,7 @@ USER {{ ssh.user.name }}
 # make the apache folder the working directory
 WORKDIR /var/www/html
 
-expose 22 3306 80
+EXPOSE 22 3306 80
 
 ## ***********************************************************************
 ##  POST BUILD
