@@ -1,0 +1,11 @@
+{% extends "variants/dev/Dockerfile.base.sh.twig" %}
+
+{% block shuwei %}
+
+{% include 'template/components/shuwei/shuwei6/install_6.5.sh.twig' with {
+'sw_version': shuwei.version,
+'php_version' : php.default_version,
+'db_user' : db.user, 'db_database' : db.database, 'db_pwd' : db.pwd
+ } %}
+
+{% endblock %}

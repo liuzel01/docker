@@ -34,18 +34,15 @@ RUN sudo service mysql start && \
     cd /var/www/html && composer require mbezhanov/faker-provider-collection && \
     cd /var/www/html && composer require maltyxx/images-generator && \
     # -------------------------------------------------------------------------------------------
-    cd /var/www/html && APP_ENV=prod php bin/console store:download -p SwagPlatformDemoData && \
-    cd /var/www/html && APP_ENV=prod php bin/console plugin:refresh && \
-    cd /var/www/html && APP_ENV=prod php bin/console plugin:install --activate SwagPlatformDemoData && \
+    #cd /var/www/html && APP_ENV=prod php bin/console store:download -p SwagPlatformDemoData && \
+    #cd /var/www/html && APP_ENV=prod php bin/console plugin:refresh && \
+    #cd /var/www/html && APP_ENV=prod php bin/console plugin:install --activate SwagPlatformDemoData && \
     # -------------------------------------------------------------------------------------------
-    cd /var/www/html && php bin/console plugin:install DockwareSamplePlugin && \
-    cd /var/www/html && php bin/console plugin:activate DockwareSamplePlugin && \
+    #cd /var/www/html && php bin/console plugin:install DockwareSamplePlugin && \
+    #cd /var/www/html && php bin/console plugin:activate DockwareSamplePlugin && \
     # -------------------------------------------------------------------------------------------
     # clear cache and refresh dal index to show the new demo data
     cd /var/www/html && php bin/console cache:clear && \
-    cd /var/www/html/bin && ./build-storefront.sh && \
-    cd /var/www/html && php bin/console theme:change --all --no-compile --no-interaction Storefront && \
-    cd /var/www/html && php bin/console theme:compile && \
     cd /var/www/html && php bin/console dal:refresh:index && \
     rm -rf /var/www/html/var/cache/* && \
     # -------------------------------------------------------------------------------------------

@@ -2,6 +2,9 @@
     "images": {
         "contribute": [
             "contribute/latest:latest"
+        ],
+        "dev": [
+            "dev/6.5.0.0:latest"
         ]
     },
     "shared_assets": "template/assets",
