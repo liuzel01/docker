@@ -2,9 +2,9 @@
 # Tag: {{ orca.tag }}
 #
 FROM {{ base_image }}
-LABEL title="Dockware {{ orca.image }}:{{ orca.tag }}" \
+LABEL title="Shuwei Docker {{ orca.image }}:{{ orca.tag }}" \
       version="{{version}}" \
-      maintainer="dasistweb GmbH"
+      maintainer="58shuwei"
 
 # remember build-date
 RUN date >/build-date.txt && \
@@ -81,10 +81,6 @@ RUN echo "export SW_API_ACCESS_KEY=${SW_API_ACCESS_KEY}" >> /etc/profile
 RUN touch /etc/apt/apt.conf.d/99verify-peer.conf \
     && echo >> /etc/apt/apt.conf.d/99verify-peer.conf "Acquire { https::Verify-Peer false }"
 
-{% block image_before %}
-
-
-{% endblock %}
 ## ***********************************************************************
 ##  BASE REQUIREMENTS
 ## ***********************************************************************
